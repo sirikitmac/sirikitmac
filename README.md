@@ -2,31 +2,47 @@
 
 💻 **IT Student | Fullstack Developer | UI/UX Enthusiast**
 
-I'm an IT student who enjoys turning ideas into interactive digital experiences. I'm interested in front-end development, UI/UX design, and database systems, and I love experimenting with new technologies and building creative projects.
+I'm an IT student who enjoys turning ideas into interactive digital experiences. I'm interested in front-end development, UI/UX design, and database systems.
 
-🌱 Currently learning and improving my skills in web development and databases.
+🎨 I enjoy designing interfaces and bringing creative ideas to life.
 
-🎨 I enjoy designing interfaces, exploring new ideas, and bringing projects to life.
+🌱 Currently learning, experimenting, and building projects to improve my skills.
 
 🚀 Always learning, always building.
 
 ---
 
-## 🧰 Languages and Tools
+## 💻 Programming Languages
 
-![My Skills](https://skillicons.dev/icons?i=html,css,js,python,java,react,tailwind,vite,figma,git,github,vscode,postgres,supabase)
+![Languages](https://skillicons.dev/icons?i=html,css,js,python,java)
+
+## 🎨 Frameworks & Libraries
+
+![Frameworks](https://skillicons.dev/icons?i=react,tailwind,vite)
+
+## 🛠️ Development Tools
+
+![Tools](https://skillicons.dev/icons?i=vscode,git,github)
+
+## 🎨 Design Tools
+
+![Design](https://skillicons.dev/icons?i=figma)
+
+## 🗄️ Databases & Backend
+
+![Databases](https://skillicons.dev/icons?i=postgres,supabase,mysql,mongodb)
 
 ---
 
 ## 📊 GitHub Statistics
 
-![GitHub Stats](https://github-readme-stats.vercel.app/api?username=sirikitmac&show_icons=true&theme=default&hide_border=true)
+![GitHub Stats](https://github-stats-extended.vercel.app/api?username=sirikitmac&show_icons=true&theme=default&hide_border=true)
 
-![Top Languages](https://github-readme-stats.vercel.app/api/top-langs/?username=sirikitmac&layout=compact&theme=default&hide_border=true)
+![Top Languages](https://github-stats-extended.vercel.app/api/top-langs/?username=sirikitmac&layout=compact&theme=default&hide_border=true)
 
 ---
 
-💡 Always exploring new ideas and working on projects that help me grow as a developer.
+More projects and experiments coming soon!
 
 ---
 
@@ -34,6 +50,4 @@ I'm an IT student who enjoys turning ideas into interactive digital experiences.
 
 🐙 [GitHub](https://github.com/sirikitmac)
 
----
-
-⭐ *Thanks for stopping by! Feel free to explore my repositories.*
+⭐ Thanks for stopping by!
