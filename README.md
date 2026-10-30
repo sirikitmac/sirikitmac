@@ -68,9 +68,19 @@ Building creative projects, exploring web development, and turning ideas into in
 
 <div align="center">
 
-<img height="180" src="https://github-readme-stats.vercel.app/api?username=sirikitmac&show_icons=true&theme=tokyonight&hide_border=true&rank_icon=github" alt="Makiatto's GitHub Statistics"/>
+## 🔥 Contribution Streak
 
-<img height="180" src="https://github-readme-stats.vercel.app/api/top-langs/?username=sirikitmac&layout=compact&theme=tokyonight&hide_border=true" alt="Most Used Languages"/>
+<div align="center">
+  <img src="https://streak-stats.demolab.com/?user=sirikitmac&theme=tokyonight&hide_border=true"
+       alt="GitHub Contribution Streak"/>
+</div>
+
+## 🏆 GitHub Trophies
+
+<div align="center">
+  <img src="https://github-profile-trophy.vercel.app/?username=sirikitmac&theme=tokyonight&no-frame=true&row=1&column=6"
+       alt="GitHub Trophies"/>
+</div>
 
 </div>
 
