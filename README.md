@@ -1,53 +1,124 @@
-# Hey, I'm Makiatto! 👋
+<div align="right">
 
-💻 **IT Student | Fullstack Developer | UI/UX Enthusiast**
+![](https://komarev.com/ghpvc/?username=sirikitmac&label=visitors&color=0e75b6&style=flat)
 
-I'm an IT student who enjoys turning ideas into interactive digital experiences. I'm interested in front-end development, UI/UX design, and database systems.
+</div>
 
-🎨 I enjoy designing interfaces and bringing creative ideas to life.
+<div align="center">
 
-🌱 Currently learning, experimenting, and building projects to improve my skills.
+# Heya there! 👋 I'm Makiatto!
 
-🚀 Always learning, always building.
+### 💻 IT Student | Fullstack Developer | UI/UX Enthusiast
+
+Building creative projects, exploring web development, and turning ideas into interactive digital experiences.
+
+🌱 Always learning. Always building.
+
+<a href="https://sirikitportfolio.netlify.app/">
+  <img src="https://img.shields.io/badge/🌐_VISIT_MY_PORTFOLIO-FF7139?style=for-the-badge" alt="Portfolio"/>
+</a>
+
+</div>
 
 ---
 
 ## 💻 Programming Languages
 
-![Languages](https://skillicons.dev/icons?i=html,css,js,python,java)
+<div align="left">
+
+<img src="https://skillicons.dev/icons?i=html,css,js,python,java" alt="HTML, CSS, JavaScript, Python, Java"/>
+
+</div>
 
 ## 🎨 Frameworks & Libraries
 
-![Frameworks](https://skillicons.dev/icons?i=react,tailwind,vite)
+<div align="left">
+
+<img src="https://skillicons.dev/icons?i=react,vite,tailwind" alt="React, Vite, Tailwind CSS"/>
+
+</div>
 
 ## 🛠️ Development Tools
 
-![Tools](https://skillicons.dev/icons?i=vscode,git,github)
+<div align="left">
+
+<img src="https://skillicons.dev/icons?i=vscode,git,github" alt="VS Code, Git, GitHub"/>
+
+</div>
 
 ## 🎨 Design Tools
 
-![Design](https://skillicons.dev/icons?i=figma)
+<div align="left">
+
+<img src="https://skillicons.dev/icons?i=figma" alt="Figma"/>
+
+</div>
 
 ## 🗄️ Databases & Backend
 
-![Databases](https://skillicons.dev/icons?i=postgres,supabase,mysql,mongodb)
+<div align="left">
+
+<img src="https://skillicons.dev/icons?i=postgres,supabase" alt="PostgreSQL, Supabase"/>
+
+</div>
 
 ---
 
 ## 📊 GitHub Statistics
 
-![GitHub Stats](https://github-stats-extended.vercel.app/api?username=sirikitmac&show_icons=true&theme=default&hide_border=true)
+<div align="center">
 
-![Top Languages](https://github-stats-extended.vercel.app/api/top-langs/?username=sirikitmac&layout=compact&theme=default&hide_border=true)
+<img height="180" src="https://github-readme-stats.vercel.app/api?username=sirikitmac&show_icons=true&theme=tokyonight&hide_border=true&rank_icon=github" alt="Makiatto's GitHub Statistics"/>
+
+<img height="180" src="https://github-readme-stats.vercel.app/api/top-langs/?username=sirikitmac&layout=compact&theme=tokyonight&hide_border=true" alt="Most Used Languages"/>
+
+</div>
 
 ---
 
-More projects and experiments coming soon!
+## 🚀 Featured Projects
+
+### 🌙 Coming Soon!~
 
 ---
 
 ## 🌐 Connect With Me
 
-🐙 [GitHub](https://github.com/sirikitmac)
+<div align="center">
 
-⭐ Thanks for stopping by!
+<a href="https://sirikitportfolio.netlify.app/">
+  <img src="https://img.shields.io/badge/Portfolio-Visit_My_Website-FF7139?style=for-the-badge&logo=firefoxbrowser&logoColor=white" alt="Portfolio"/>
+</a>
+<a href="https://www.linkedin.com/in/sirikit-macarambon-480b07331/">
+  <img src="https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
+</a>
+<a href="https://www.instagram.com/sirikit.mac/">
+  <img src="https://img.shields.io/badge/Instagram-Follow-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram"/>
+</a>
+<a href="https://www.facebook.com/share/1DthcsgCtq/">
+  <img src="https://img.shields.io/badge/Facebook-Connect-1877F2?style=for-the-badge&logo=facebook&logoColor=white" alt="Facebook"/>
+</a>
+
+<!-- Replace the placeholders below before enabling these buttons.
+
+<a href="mailto:YOUR_EMAIL@gmail.com">
+  <img src="https://img.shields.io/badge/Gmail-Contact_Me-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Gmail"/>
+</a>
+
+<a href="YOUR_DISCORD_PROFILE_URL">
+  <img src="https://img.shields.io/badge/Discord-Connect-5865F2?style=for-the-badge&logo=discord&logoColor=white" alt="Discord"/>
+</a>
+
+-->
+
+</div>
+
+---
+
+<div align="center">
+
+⭐ Thanks for visiting my profile! ⭐
+
+*Feel free to explore my repositories and projects.*
+
+</div>
