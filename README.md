@@ -75,6 +75,14 @@ Building creative projects, exploring web development, and turning ideas into in
        alt="GitHub Contribution Streak"/>
 </div>
 
+## 🧊 My 3D Contribution Calendar
+
+<div align="center">
+  <img src="./profile-3d-contrib/profile-green-animate.svg"
+       alt="My 3D GitHub Contribution Calendar"
+       width="100%"/>
+</div>
+
 ## 🏆 GitHub Trophies
 
 <div align="center">
