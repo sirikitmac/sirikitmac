@@ -4,6 +4,7 @@
 
 <img src="assets/hero.svg" alt="Makiatto (@sirikitmac): contributions in the last year, repos and followers" width="100%" />
 
+<a href="https://sirikit-portfolio.vercel.app"><img src="https://img.shields.io/badge/PORTFOLIO-sirikit--portfolio.vercel.app-ff4500?style=for-the-badge&labelColor=1a0707" alt="Portfolio: sirikit-portfolio.vercel.app" /></a>
 <img src="https://komarev.com/ghpvc/?username=sirikitmac&label=PROFILE%20VIEWS&color=ff4500&style=for-the-badge" alt="Profile views" />
 
 <p><b>Full-stack developer · UI/UX</b></p>
@@ -46,7 +47,9 @@
   <img src="https://www.gitskins.com/api/section/social?username=sirikitmac&theme=satan&avatar=https%3A%2F%2Favatars.githubusercontent.com%2Fu%2F229452084%3Fu%3De98ecec9bb257d777406644c1edf52d3669b2329%26v%3D4" alt="sirikitmac social visual" />
 </p>
 
-<a href="https://github.com/sirikitmac">GitHub</a>
+<p align="center">
+  <a href="https://sirikit-portfolio.vercel.app"><b>🌐 Portfolio</b></a> · <a href="https://github.com/sirikitmac">GitHub</a>
+</p>
 
 ## Activity
 
