@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="860" height="230" viewBox="0 0 860 230" role="img" aria-label="Makiatto — 282 contributions in the last year">
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="230" viewBox="0 0 860 230" role="img" aria-label="Makiatto — 299 contributions in the last year">
   
   <defs>
     <linearGradient id="hero-bg" x1="0" y1="0" x2="1" y2="1">
@@ -32,7 +32,7 @@
   <g transform="translate(190,158)"><g transform="translate(0,0)"><rect width="94" height="24" rx="12" fill="#ff4500" fill-opacity="0.12" stroke="#ff4500" stroke-opacity="0.45"/><text x="47" y="16" text-anchor="middle" font-family="ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#ff8c61">TypeScript</text></g><g transform="translate(104,0)"><rect width="94" height="24" rx="12" fill="#ff4500" fill-opacity="0.12" stroke="#ff4500" stroke-opacity="0.45"/><text x="47" y="16" text-anchor="middle" font-family="ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#ff8c61">JavaScript</text></g><g transform="translate(208,0)"><rect width="72.4" height="24" rx="12" fill="#ff4500" fill-opacity="0.12" stroke="#ff4500" stroke-opacity="0.45"/><text x="36.2" y="16" text-anchor="middle" font-family="ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#ff8c61">PLpgSQL</text></g><g transform="translate(290.4,0)"><rect width="43.6" height="24" rx="12" fill="#ff4500" fill-opacity="0.12" stroke="#ff4500" stroke-opacity="0.45"/><text x="21.8" y="16" text-anchor="middle" font-family="ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#ff8c61">CSS</text></g></g>
 
   <line x1="600" y1="40" x2="600" y2="190" stroke="#ff4500" stroke-opacity="0.3"/>
-  <text x="725" y="96" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="52" font-weight="800" fill="url(#hero-title)">282</text>
+  <text x="725" y="96" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif" font-size="52" font-weight="800" fill="url(#hero-title)">299</text>
   <text x="725" y="120" text-anchor="middle" font-family="ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace" font-size="10" letter-spacing="2" fill="#ff8c61">CONTRIBUTIONS · LAST YEAR</text>
   <line x1="640" y1="142" x2="810" y2="142" stroke="#ff4500" stroke-opacity="0.25"/>
   
