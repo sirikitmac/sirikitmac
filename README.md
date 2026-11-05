@@ -15,7 +15,7 @@
 
 > 👩‍💻 I.T Student
 
-*Small, useful work over vague claims.*
+*meow*
 
 ## Core toolkit
 
