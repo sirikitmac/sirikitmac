@@ -1,0 +1,24 @@
+[
+  {
+    "type": "normal",
+    "fileName": "profile-satan-animate.svg",
+    "backgroundColor": "#0b0607",
+    "foregroundColor": "#ffd9cc",
+    "strongColor": "#ff4500",
+    "weakColor": "#b07a6c",
+    "radarColor": "#ff4500",
+    "growingAnimation": true,
+    "contribColors": ["#2a1210", "#6e1a0c", "#b3260b", "#ff4500", "#ff8c61"]
+  },
+  {
+    "type": "normal",
+    "fileName": "profile-satan.svg",
+    "backgroundColor": "#0b0607",
+    "foregroundColor": "#ffd9cc",
+    "strongColor": "#ff4500",
+    "weakColor": "#b07a6c",
+    "radarColor": "#ff4500",
+    "growingAnimation": false,
+    "contribColors": ["#2a1210", "#6e1a0c", "#b3260b", "#ff4500", "#ff8c61"]
+  }
+]
