@@ -1,10 +1,16 @@
-// Builds the self-hosted profile cards (hero + selected work) as SVGs.
+// Builds the self-hosted profile cards as SVGs, holo-foil edition:
+//   assets/hero.svg      holographic collector card + stat tiles
+//   assets/stack.svg     language stack
+//   assets/projects.svg  selected work
+//   assets/social.svg    let's connect
+// and frames the 3D contribution city with the same foil border (--frame).
 // Runs daily in .github/workflows/profile-3d.yml with GITHUB_TOKEN.
-// Local preview without a token: `node scripts/build-cards.mjs --seed scripts/seed.json`
+// Local preview without a token: node scripts/build-cards.mjs --seed path/to/seed.json
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 
 const USER = process.env.USERNAME || "sirikitmac";
 const OUT = "assets";
+const CITY = "profile-3d-contrib/profile-satan-animate.svg";
 
 // Selected work — edit this list to change what shows on the profile.
 const PROJECTS = [
@@ -34,18 +40,29 @@ const PROJECTS = [
   },
 ];
 
-// ---------- palette (matches the GitSkins "satan" theme) ----------
+// ---------- palette ----------
 const C = {
-  bg0: "#0b0607",
-  bg1: "#1a0707",
-  red: "#ff4500",
-  orange: "#ff6b35",
-  peach: "#ff8c61",
-  text: "#ffd9cc",
-  dim: "#b07a6c",
+  bg0: "#07070d",
+  bg1: "#0d0b1c",
+  ink: "#07070d",
+  panel: "#0b0b16",
+  tile: "#11111d",
+  tileStroke: "#2a2a44",
+  red: "#c084fc", // accent (was red) — now holo violet
+  orange: "#22d3ee", // secondary glow — cyan
+  peach: "#a5b4fc", // soft accent text — lilac
+  text: "#e5e7eb",
+  dim: "#8b8fa8",
+  white: "#ffffff",
+  grey: "#9ca3af",
+  lilac: "#a5b4fc",
+  sky: "#7dd3fc",
+  gold: "#facc15",
 };
-const MONO = "ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,monospace";
-const SANS = "-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif";
+const ABBR = { TypeScript: "TS", JavaScript: "JS", PLpgSQL: "PL", CSS: "CSS", HTML: "</>", Python: "Py", Java: "J", "C++": "C++", Shell: "$" };
+const FOIL = ["#7c3aed", "#22d3ee", "#4ade80", "#f472b6"];
+const MONO = "ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace";
+const SANS = "-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif";
 
 // ---------- data ----------
 async function gql(query, variables) {
@@ -63,11 +80,22 @@ async function gql(query, variables) {
   return json.data;
 }
 
+function streakFrom(days) {
+  // current streak, counting back from today; an empty today doesn't break it
+  const sorted = [...days].sort((a, b) => b.date.localeCompare(a.date));
+  let streak = 0;
+  for (let i = 0; i < sorted.length; i++) {
+    if (sorted[i].contributionCount > 0) streak++;
+    else if (i === 0) continue;
+    else break;
+  }
+  return streak;
+}
+
 async function fetchData() {
   const repoFields = PROJECTS.map(
     (p, i) => `p${i}: repository(owner: $login, name: "${p.repo}") {
       pushedAt
-      homepageUrl
       languages(first: 6, orderBy: {field: SIZE, direction: DESC}) {
         totalSize edges { size node { name color } }
       }
@@ -76,13 +104,18 @@ async function fetchData() {
   const d = await gql(
     `query($login: String!) {
       user(login: $login) {
-        name login bio avatarUrl(size: 200)
+        name login bio createdAt avatarUrl(size: 400)
         followers { totalCount }
         repositories(first: 100, ownerAffiliations: OWNER, privacy: PUBLIC, isFork: false) {
           totalCount
           nodes { languages(first: 10) { edges { size node { name color } } } }
         }
-        contributionsCollection { contributionCalendar { totalContributions } }
+        contributionsCollection {
+          contributionCalendar {
+            totalContributions
+            weeks { contributionDays { date contributionCount } }
+          }
+        }
       }
       ${repoFields}
     }`,
@@ -96,31 +129,34 @@ async function fetchData() {
       cur.size += e.size;
       langTotals.set(e.node.name, cur);
     }
-  const topLangs = [...langTotals.entries()]
+  const totalSize = [...langTotals.values()].reduce((s, v) => s + v.size, 0) || 1;
+  const langs = [...langTotals.entries()]
     .sort((a, b) => b[1].size - a[1].size)
-    .slice(0, 4)
-    .map(([name]) => name);
+    .slice(0, 5)
+    .map(([name, v]) => ({ name, color: v.color || C.peach, pct: (v.size / totalSize) * 100 }));
 
   const avatarRes = await fetch(u.avatarUrl);
   const avatar = `data:${avatarRes.headers.get("content-type") || "image/png"};base64,${Buffer.from(
     await avatarRes.arrayBuffer(),
   ).toString("base64")}`;
 
+  const cal = u.contributionsCollection.contributionCalendar;
   return {
     name: u.name || u.login,
     login: u.login,
     bio: u.bio || "",
+    since: new Date(u.createdAt).getUTCFullYear(),
     avatar,
     followers: u.followers.totalCount,
     repos: u.repositories.totalCount,
-    contributions: u.contributionsCollection.contributionCalendar.totalContributions,
-    topLangs,
+    contributions: cal.totalContributions,
+    streak: streakFrom(cal.weeks.flatMap((w) => w.contributionDays)),
+    langs,
     projects: PROJECTS.map((p, i) => {
       const r = d[`p${i}`] || {};
       const total = r.languages?.totalSize || 1;
       return {
         ...p,
-        homepage: r.homepageUrl || "",
         pushedAt: r.pushedAt || null,
         languages: (r.languages?.edges || []).map((e) => ({
           name: e.node.name,
@@ -135,6 +171,9 @@ async function fetchData() {
 // ---------- helpers ----------
 const esc = (s) =>
   String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const fmt = (n) => Number(n).toLocaleString("en-US");
+// strip a leading emoji so "👩‍💻 I.T Student" reads "I.T Student" on the card
+const plainBio = (s) => s.replace(/^[^\p{L}\p{N}]+/u, "").trim();
 
 function wrap(text, maxChars) {
   const lines = [];
@@ -159,66 +198,159 @@ function ago(iso) {
   return `updated ${Math.floor(days / 365)}y ago`;
 }
 
-const fmt = (n) => n.toLocaleString("en-US");
+// Foil gradient that slowly rotates, so borders shimmer like a holo card.
+// `${id}-flat` is a static version for text and thin lines.
+function foilDefs(id, cx, cy) {
+  const stops = FOIL.map((c, i) => `<stop offset="${(i / (FOIL.length - 1)).toFixed(2)}" stop-color="${c}"/>`).join("");
+  return `
+    <linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="${cx - cx}" y1="${cy - cy}" x2="${cx * 2}" y2="${cy * 2}">
+      ${stops}
+      <animateTransform attributeName="gradientTransform" type="rotate" values="0 ${cx} ${cy};360 ${cx} ${cy}" dur="10s" repeatCount="indefinite"/>
+    </linearGradient>
+    <linearGradient id="${id}-flat" x1="0" y1="0" x2="1" y2="1">${stops}</linearGradient>`;
+}
 
-function backdrop(id, w, h) {
+// A sheen bar that sweeps across a clipped area.
+function sheen(id, x, y, w, h, clip, delay = 0) {
+  return `
+  <defs><linearGradient id="${id}-sh" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".16"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+  </linearGradient></defs>
+  <g clip-path="url(#${clip})">
+    <g transform="skewX(-18)">
+      <rect x="${x - 220}" y="${y}" width="150" height="${h}" fill="url(#${id}-sh)">
+        <animateTransform attributeName="transform" type="translate" values="0 0;${w + h + 300} 0;${w + h + 300} 0" keyTimes="0;0.55;1" dur="5s" begin="${delay}s" repeatCount="indefinite"/>
+      </rect>
+    </g>
+  </g>`;
+}
+
+// Dark card body with a foil border — the shared look for every section.
+function holoFrame(id, W, H) {
   return `
   <defs>
+    ${foilDefs(`${id}-foil`, W / 2, H / 2)}
     <linearGradient id="${id}-bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="${C.bg1}"/><stop offset="1" stop-color="${C.bg0}"/>
     </linearGradient>
-    <radialGradient id="${id}-orb"><stop offset="0" stop-color="${C.red}" stop-opacity="0.35"/><stop offset="1" stop-color="${C.red}" stop-opacity="0"/></radialGradient>
-    <radialGradient id="${id}-orb2"><stop offset="0" stop-color="${C.orange}" stop-opacity="0.22"/><stop offset="1" stop-color="${C.orange}" stop-opacity="0"/></radialGradient>
-    <linearGradient id="${id}-title" x1="0" x2="1"><stop offset="0" stop-color="${C.red}"/><stop offset="1" stop-color="${C.peach}"/></linearGradient>
-    <clipPath id="${id}-clip"><rect width="${w}" height="${h}" rx="20"/></clipPath>
+    <radialGradient id="${id}-orb"><stop offset="0" stop-color="#7c3aed" stop-opacity="0.28"/><stop offset="1" stop-color="${C.red}" stop-opacity="0"/></radialGradient>
+    <radialGradient id="${id}-orb2"><stop offset="0" stop-color="#22d3ee" stop-opacity="0.14"/><stop offset="1" stop-color="${C.orange}" stop-opacity="0"/></radialGradient>
+    <linearGradient id="${id}-title" x1="0" x2="1"><stop offset="0" stop-color="#c084fc"/><stop offset=".5" stop-color="#22d3ee"/><stop offset="1" stop-color="#4ade80"/></linearGradient>
+    <clipPath id="${id}-clip"><rect x="3" y="3" width="${W - 6}" height="${H - 6}" rx="19"/></clipPath>
   </defs>
   <g clip-path="url(#${id}-clip)">
-    <rect width="${w}" height="${h}" fill="url(#${id}-bg)"/>
-    <ellipse cx="${w * 0.12}" cy="${h * 0.15}" rx="${w * 0.28}" ry="${h * 0.9}" fill="url(#${id}-orb)">
+    <rect width="${W}" height="${H}" fill="url(#${id}-bg)"/>
+    <ellipse cx="${W * 0.12}" cy="${H * 0.15}" rx="${W * 0.28}" ry="${H * 0.9}" fill="url(#${id}-orb)">
       <animate attributeName="opacity" values="0.7;1;0.7" dur="6s" repeatCount="indefinite"/>
     </ellipse>
-    <ellipse cx="${w * 0.85}" cy="${h * 0.95}" rx="${w * 0.35}" ry="${h * 0.8}" fill="url(#${id}-orb2)">
+    <ellipse cx="${W * 0.85}" cy="${H * 0.95}" rx="${W * 0.35}" ry="${H * 0.8}" fill="url(#${id}-orb2)">
       <animate attributeName="opacity" values="1;0.6;1" dur="7s" repeatCount="indefinite"/>
     </ellipse>
   </g>
-  <rect x="0.75" y="0.75" width="${w - 1.5}" height="${h - 1.5}" rx="19.5" fill="none" stroke="${C.red}" stroke-opacity="0.55" stroke-width="1.5"/>`;
+  <rect x="1.5" y="1.5" width="${W - 3}" height="${H - 3}" rx="21" fill="none" stroke="url(#${id}-foil)" stroke-width="3"/>`;
 }
 
-// ---------- hero ----------
+function svgOpen(W, H, label) {
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(label)}">
+  <style>@media (prefers-reduced-motion: reduce){*{animation:none!important}}</style>`;
+}
+
+// ---------- hero: holographic collector card ----------
 function hero(d) {
-  const W = 860, H = 230, id = "hero";
-  const chips = d.topLangs
+  const W = 880, H = 460;
+  const CX = 40, CY = 30, CW = 360, CH = 400;
+  const top3 = d.langs.slice(0, 3);
+  const rarity =
+    d.contributions >= 2000 ? "LEGENDARY" : d.contributions >= 1000 ? "EPIC" : d.contributions >= 500 ? "RARE" : "COMMON";
+
+  const langRows = top3
     .map((l, i) => {
-      const w = 22 + l.length * 7.2;
-      const x = d._chipX ?? 0;
-      d._chipX = x + w + 10;
-      return `<g transform="translate(${x},0)"><rect width="${w}" height="24" rx="12" fill="${C.red}" fill-opacity="0.12" stroke="${C.red}" stroke-opacity="0.45"/><text x="${w / 2}" y="16" text-anchor="middle" font-family="${MONO}" font-size="11" fill="${C.peach}">${esc(l)}</text></g>`;
+      const y = 327 + i * 26;
+      return `
+      <rect x="64" y="${y}" width="20" height="20" rx="4.4" fill="${l.color}"/>
+      <text x="74" y="${y + 14}" text-anchor="middle" font-family="${SANS}" font-size="8.5" font-weight="800" fill="${C.white}">${esc(ABBR[l.name] || l.name.slice(0, 2))}</text>
+      <text x="94" y="${y + 15}" font-family="${SANS}" font-size="14" font-weight="600" fill="#e5e7eb">${esc(l.name)}</text>
+      <text x="376" y="${y + 15}" text-anchor="end" font-family="${MONO}" font-size="13" fill="${C.lilac}">${Math.round(l.pct)} PWR</text>`;
     })
     .join("");
-  delete d._chipX;
 
-  const stat = (x, value, label) => `
-    <text x="${x}" y="176" text-anchor="middle" font-family="${SANS}" font-size="20" font-weight="700" fill="${C.text}">${value}</text>
-    <text x="${x}" y="194" text-anchor="middle" font-family="${MONO}" font-size="9.5" letter-spacing="1.5" fill="${C.dim}">${label}</text>`;
+  const tiles = [
+    [d.contributions, "CONTRIBUTIONS"],
+    [d.followers, "FOLLOWERS"],
+    [d.repos, "REPOS"],
+    [d.streak, "DAY STREAK"],
+  ]
+    .map(([v, label], i) => {
+      const x = 450 + (i % 2) * 196;
+      const y = 200 + Math.floor(i / 2) * 96;
+      return `
+  <g opacity="0">
+    <animate attributeName="opacity" from="0" to="1" dur="0.4s" begin="${0.3 + i * 0.12}s" fill="freeze"/>
+    <rect x="${x}" y="${y}" width="180" height="80" rx="14" fill="${C.tile}" stroke="${C.tileStroke}"/>
+    <text x="${x + 18}" y="${y + 44}" font-family="${SANS}" font-size="28" font-weight="800" fill="url(#hero-foil-flat)">${fmt(v)}</text>
+    <text x="${x + 18}" y="${y + 66}" font-family="${MONO}" font-size="11" letter-spacing="1.1" fill="${C.grey}">${label}</text>
+  </g>`;
+    })
+    .join("");
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(d.name)} — ${fmt(d.contributions)} contributions in the last year">
-  ${backdrop(id, W, H)}
-  <defs><clipPath id="av"><circle cx="100" cy="100" r="56"/></clipPath></defs>
-  <circle cx="100" cy="100" r="62" fill="none" stroke="url(#${id}-title)" stroke-width="2.5">
-    <animate attributeName="stroke-opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
-  </circle>
-  ${d.avatar ? `<image href="${d.avatar}" x="44" y="44" width="112" height="112" clip-path="url(#av)" preserveAspectRatio="xMidYMid slice"/>` : ""}
-  <text x="190" y="62" font-family="${MONO}" font-size="12" letter-spacing="2" fill="${C.peach}">@${esc(d.login)}</text>
-  <text x="188" y="108" font-family="${SANS}" font-size="44" font-weight="800" fill="url(#${id}-title)">${esc(d.name)}</text>
-  <text x="190" y="136" font-family="${SANS}" font-size="14" fill="${C.text}" fill-opacity="0.85">${esc(d.bio)}</text>
-  <g transform="translate(190,158)">${chips}</g>
+  return `${svgOpen(W, H, `${d.name}'s holographic collector card: ${fmt(d.contributions)} contributions, ${fmt(d.followers)} followers, ${fmt(d.repos)} repos, ${d.streak} day streak`)}
+  <defs>
+    ${foilDefs("hero-foil", CX + CW / 2, CY + CH / 2)}
+    <clipPath id="hero-card"><rect x="${CX}" y="${CY}" width="${CW}" height="${CH}" rx="22"/></clipPath>
+    <clipPath id="hero-face"><rect x="64" y="96" width="312" height="190" rx="12"/></clipPath>
+  </defs>
+  <rect width="${W}" height="${H}" rx="18" fill="${C.ink}"/>
 
-  <line x1="600" y1="40" x2="600" y2="${H - 40}" stroke="${C.red}" stroke-opacity="0.3"/>
-  <text x="725" y="96" text-anchor="middle" font-family="${SANS}" font-size="52" font-weight="800" fill="url(#${id}-title)">${fmt(d.contributions)}</text>
-  <text x="725" y="120" text-anchor="middle" font-family="${MONO}" font-size="10" letter-spacing="2" fill="${C.peach}">CONTRIBUTIONS · LAST YEAR</text>
-  <line x1="640" y1="142" x2="810" y2="142" stroke="${C.red}" stroke-opacity="0.25"/>
-  ${stat(680, fmt(d.repos), "REPOS")}
-  ${stat(770, fmt(d.followers), "FOLLOWERS")}
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-1.2 220 430;1.2 220 430;-1.2 220 430" dur="6s" calcMode="spline" keyTimes="0;0.5;1" keySplines="0.45 0 0.55 1;0.45 0 0.55 1" repeatCount="indefinite"/>
+    <g clip-path="url(#hero-card)">
+      <rect x="${CX}" y="${CY}" width="${CW}" height="${CH}" fill="url(#hero-foil)"/>
+      <rect x="${CX + 8}" y="${CY + 8}" width="${CW - 16}" height="${CH - 16}" rx="16" fill="${C.panel}" opacity=".92"/>
+      <text x="64" y="76" font-family="${SANS}" font-size="26" font-weight="700" fill="${C.white}">${esc(d.name)}</text>
+      <text x="376" y="76" text-anchor="end" font-family="${MONO}" font-size="13" fill="${C.gold}">⚡ ${fmt(d.contributions)}</text>
+      ${d.avatar ? `<image href="${d.avatar}" x="64" y="96" width="312" height="190" preserveAspectRatio="xMidYMid slice" clip-path="url(#hero-face)"/>` : ""}
+      <rect x="64" y="96" width="312" height="190" rx="12" fill="url(#hero-foil-flat)" opacity=".16"/>
+      <text x="64" y="312" font-family="${MONO}" font-size="11" letter-spacing="1.5" fill="${C.lilac}">${rarity} · ${fmt(d.repos)} REPOS · SINCE ${d.since}</text>
+      ${langRows}
+    </g>
+    ${sheen("hero", CX, CY, CW, CH, "hero-card")}
+    <rect x="${CX}" y="${CY}" width="${CW}" height="${CH}" rx="22" fill="none" stroke="url(#hero-foil)" stroke-width="3"/>
+  </g>
+
+  <text x="450" y="74" font-family="${MONO}" font-size="12" letter-spacing="2.4" fill="${C.sky}">COLLECTOR'S EDITION · ${new Date().getUTCFullYear()}</text>
+  <text x="450" y="128" font-family="${SANS}" font-size="44" font-weight="800" letter-spacing="-0.9" fill="${C.white}">@${esc(d.login)}</text>
+  <text x="450" y="158" font-family="${SANS}" font-size="16" fill="${C.grey}">${esc(plainBio(d.bio))}</text>
+  ${tiles}
+</svg>
+`;
+}
+
+// ---------- core toolkit: language stack ----------
+function stack(d) {
+  const W = 860, id = "stack";
+  const H = 110 + d.langs.length * 34;
+  const barX = 300, barW = 520;
+  const body = d.langs
+    .map((l, i) => {
+      const y = 104 + i * 34;
+      const w = Math.max(4, (l.pct / 100) * barW);
+      return `
+  <circle cx="40" cy="${y - 4}" r="5" fill="${l.color}"/>
+  <text x="56" y="${y}" font-family="${MONO}" font-size="13" font-weight="700" fill="${C.text}">${esc(l.name)}</text>
+  <text x="${barX - 22}" y="${y}" text-anchor="end" font-family="${MONO}" font-size="12" fill="${C.peach}">${l.pct < 1 ? "&lt;1" : Math.round(l.pct)}%</text>
+  <rect x="${barX}" y="${y - 9}" width="${barW}" height="8" rx="4" fill="${C.peach}" fill-opacity="0.12"/>
+  <rect x="${barX}" y="${y - 9}" width="${w.toFixed(1)}" height="8" rx="4" fill="${l.color}">
+    <animate attributeName="width" from="0" to="${w.toFixed(1)}" dur="0.9s" begin="${0.2 + i * 0.12}s" calcMode="spline" keyTimes="0;1" keySplines="0.3 0 0.2 1"/>
+  </rect>`;
+    })
+    .join("");
+  return `${svgOpen(W, H, `Language stack: ${d.langs.map((l) => `${l.name} ${Math.round(l.pct)}%`).join(", ")}`)}
+  ${holoFrame(id, W, H)}
+  <text x="30" y="50" font-family="${SANS}" font-size="22" font-weight="800" fill="url(#${id}-title)">Language Stack</text>
+  <text x="30" y="70" font-family="${MONO}" font-size="11" fill="${C.dim}">Repository-weighted technologies</text>
+  <text x="${W - 30}" y="50" text-anchor="end" font-family="${MONO}" font-size="12" fill="${C.peach}">&gt; stack.scan <tspan fill="${C.red}">_<animate attributeName="opacity" values="1;0;1" dur="1.2s" repeatCount="indefinite"/></tspan></text>
+  ${body}
+  ${sheen(id, 0, 0, W, H, `${id}-clip`, 1)}
 </svg>
 `;
 }
@@ -251,14 +383,11 @@ function projects(d) {
         })
         .join("");
       const top = p.languages[0];
-      const stack = p.stack.join(" · ");
       return `
-  <g transform="translate(${x},70)">
+  <g transform="translate(${x},70)" opacity="0">
     <animate attributeName="opacity" from="0" to="1" dur="0.5s" begin="${0.15 + i * 0.15}s" fill="freeze"/>
-    <rect width="${cw}" height="${ch}" rx="13" fill="#08080c" fill-opacity="0.55" stroke="${C.red}" stroke-opacity="0.5">
-      <animate attributeName="stroke-opacity" values="0.4;0.85;0.4" dur="4.5s" begin="${i * 0.6}s" repeatCount="indefinite"/>
-    </rect>
-    <line x1="0" y1="30" x2="${cw}" y2="30" stroke="${C.red}" stroke-opacity="0.4"/>
+    <rect width="${cw}" height="${ch}" rx="13" fill="#08080c" fill-opacity="0.6" stroke="url(#${id}-foil-flat)" stroke-width="1.5"/>
+    <line x1="0" y1="30" x2="${cw}" y2="30" stroke="url(#${id}-foil-flat)" stroke-opacity="0.45"/>
     <text x="16" y="20" font-family="${MONO}" font-size="10.5" fill="${C.peach}"><tspan fill="${C.red}">•</tspan> ${esc(p.repo.toLowerCase())}</text>
     <text x="${cw - 16}" y="20" text-anchor="end" font-family="${MONO}" font-size="9.5" fill="${C.dim}">${esc(ago(p.pushedAt))}</text>
     <text x="16" y="56" font-family="${SANS}" font-size="18" font-weight="700" fill="url(#${id}-title)">${esc(p.title)}</text>
@@ -268,28 +397,72 @@ function projects(d) {
     <rect x="16" y="${barY}" width="${barW}" height="6" rx="3" fill="${C.peach}" fill-opacity="0.15"/>
     <g clip-path="url(#bar${i})">${bar}</g>
     <text x="16" y="${barY + 24}" font-family="${MONO}" font-size="10" fill="${C.dim}">${top ? `${esc(top.name)} ${Math.round(top.pct)}%` : ""}</text>
-    <text x="16" y="${ch - 16}" font-family="${MONO}" font-size="10" fill="${C.peach}">${esc(stack)}</text>
+    <text x="16" y="${ch - 16}" font-family="${MONO}" font-size="10" fill="${C.peach}">${esc(p.stack.join(" · "))}</text>
   </g>`;
     })
     .join("");
 
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Selected work: ${d.projects.map((p) => esc(p.title)).join(", ")}">
-  ${backdrop(id, W, H)}
+  return `${svgOpen(W, H, `Selected work: ${d.projects.map((p) => p.title).join(", ")}`)}
+  ${holoFrame(id, W, H)}
   <text x="30" y="40" font-family="${MONO}" font-size="12" letter-spacing="2" fill="${C.red}">PROJECTS.LIST</text>
   <text x="180" y="40" font-family="${MONO}" font-size="11" fill="${C.peach}" fill-opacity="0.8">./projects.sh --selected</text>
   <text x="${W - 30}" y="40" text-anchor="end" font-family="${MONO}" font-size="11" fill="${C.peach}" fill-opacity="0.7">${d.projects.length} projects</text>
-  <line x1="28" y1="52" x2="${W - 28}" y2="52" stroke="${C.red}" stroke-opacity="0.5" stroke-width="1.5"/>
+  <line x1="28" y1="52" x2="${W - 28}" y2="52" stroke="url(#${id}-foil-flat)" stroke-opacity="0.6" stroke-width="1.5"/>
   ${cards}
+  ${sheen(id, 0, 0, W, H, `${id}-clip`, 2)}
 </svg>
 `;
 }
 
+// ---------- let's connect ----------
+function social(d) {
+  const W = 860, H = 120, id = "soc";
+  const pw = 210, px = (W - pw) / 2, py = 34;
+  return `${svgOpen(W, H, `Connect: GitHub @${d.login}`)}
+  ${holoFrame(id, W, H)}
+  <rect x="${px}" y="${py}" width="${pw}" height="52" rx="26" fill="#08080c" fill-opacity="0.7" stroke="url(#${id}-foil-flat)" stroke-width="1.5"/>
+  <circle cx="${px + 28}" cy="${py + 26}" r="15" fill="${C.red}" fill-opacity="0.15" stroke="${C.red}" stroke-opacity="0.6"/>
+  <text x="${px + 28}" y="${py + 31}" text-anchor="middle" font-family="${SANS}" font-size="14" font-weight="800" fill="${C.peach}">G</text>
+  <text x="${px + 54}" y="${py + 23}" font-family="${SANS}" font-size="14" font-weight="700" fill="${C.text}">GitHub</text>
+  <text x="${px + 54}" y="${py + 40}" font-family="${MONO}" font-size="11" fill="${C.peach}">@${esc(d.login)}</text>
+  ${sheen(id, 0, 0, W, H, `${id}-clip`, 3)}
+</svg>
+`;
+}
+
+// ---------- 3D city: add the foil frame around the generated SVG ----------
+async function frameCity(path) {
+  let svg;
+  try {
+    svg = await readFile(path, "utf8");
+  } catch {
+    console.log(`no ${path} yet, skipping frame`);
+    return;
+  }
+  if (svg.includes('id="cityframe-foil"')) return; // already framed
+  const m = svg.match(/viewBox="0 0 (\d+(?:\.\d+)?) (\d+(?:\.\d+)?)"/);
+  const W = m ? Number(m[1]) : 1280, H = m ? Number(m[2]) : 850;
+  const openEnd = svg.indexOf(">", svg.indexOf("<svg")) + 1;
+  const head = `<defs>${foilDefs("cityframe-foil", W / 2, H / 2)}<clipPath id="cityframe-clip"><rect x="5" y="5" width="${W - 10}" height="${H - 10}" rx="30"/></clipPath></defs><g clip-path="url(#cityframe-clip)">`;
+  const tail = `</g><rect x="3" y="3" width="${W - 6}" height="${H - 6}" rx="32" fill="none" stroke="url(#cityframe-foil)" stroke-width="6"/>`;
+  svg = svg.slice(0, openEnd) + head + svg.slice(openEnd).replace(/<\/svg>\s*$/, `${tail}</svg>`);
+  await writeFile(path, svg);
+  console.log(`framed ${path}`);
+}
+
 // ---------- main ----------
-const seedIdx = process.argv.indexOf("--seed");
+const args = process.argv.slice(2);
+if (args.includes("--frame")) {
+  const p = args[args.indexOf("--frame") + 1];
+  await frameCity(p && !p.startsWith("--") ? p : CITY);
+  process.exit(0);
+}
+
+const seedIdx = args.indexOf("--seed");
 const data =
   seedIdx > -1
     ? await (async () => {
-        const s = JSON.parse(await readFile(process.argv[seedIdx + 1], "utf8"));
+        const s = JSON.parse(await readFile(args[seedIdx + 1], "utf8"));
         s.projects = PROJECTS.map((p) => ({ ...p, ...(s.projects?.[p.repo] || {}) }));
         return s;
       })()
@@ -297,5 +470,7 @@ const data =
 
 await mkdir(OUT, { recursive: true });
 await writeFile(`${OUT}/hero.svg`, hero(data));
+await writeFile(`${OUT}/stack.svg`, stack(data));
 await writeFile(`${OUT}/projects.svg`, projects(data));
-console.log(`cards built: ${fmt(data.contributions)} contributions, ${data.projects.length} projects`);
+await writeFile(`${OUT}/social.svg`, social(data));
+console.log(`cards built: ${fmt(data.contributions)} contributions, ${data.streak} day streak, ${data.projects.length} projects`);

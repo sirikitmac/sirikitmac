@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="280" viewBox="0 0 860 280" role="img" aria-label="Language stack: TypeScript 70%, JavaScript 19%, PLpgSQL 7%, CSS 3%, HTML 1%">
+  <style>@media (prefers-reduced-motion: reduce){*{animation:none!important}}</style>
+  
+  <defs>
+    
+    <linearGradient id="stack-foil" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="860" y2="280">
+      <stop offset="0.00" stop-color="#7c3aed"/><stop offset="0.33" stop-color="#22d3ee"/><stop offset="0.67" stop-color="#4ade80"/><stop offset="1.00" stop-color="#f472b6"/>
+      <animateTransform attributeName="gradientTransform" type="rotate" values="0 430 140;360 430 140" dur="10s" repeatCount="indefinite"/>
+    </linearGradient>
+    <linearGradient id="stack-foil-flat" x1="0" y1="0" x2="1" y2="1"><stop offset="0.00" stop-color="#7c3aed"/><stop offset="0.33" stop-color="#22d3ee"/><stop offset="0.67" stop-color="#4ade80"/><stop offset="1.00" stop-color="#f472b6"/></linearGradient>
+    <linearGradient id="stack-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d0b1c"/><stop offset="1" stop-color="#07070d"/>
+    </linearGradient>
+    <radialGradient id="stack-orb"><stop offset="0" stop-color="#7c3aed" stop-opacity="0.28"/><stop offset="1" stop-color="#c084fc" stop-opacity="0"/></radialGradient>
+    <radialGradient id="stack-orb2"><stop offset="0" stop-color="#22d3ee" stop-opacity="0.14"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/></radialGradient>
+    <linearGradient id="stack-title" x1="0" x2="1"><stop offset="0" stop-color="#c084fc"/><stop offset=".5" stop-color="#22d3ee"/><stop offset="1" stop-color="#4ade80"/></linearGradient>
+    <clipPath id="stack-clip"><rect x="3" y="3" width="854" height="274" rx="19"/></clipPath>
+  </defs>
+  <g clip-path="url(#stack-clip)">
+    <rect width="860" height="280" fill="url(#stack-bg)"/>
+    <ellipse cx="103.2" cy="42" rx="240.8" ry="252" fill="url(#stack-orb)">
+      <animate attributeName="opacity" values="0.7;1;0.7" dur="6s" repeatCount="indefinite"/>
+    </ellipse>
+    <ellipse cx="731" cy="266" rx="301" ry="224" fill="url(#stack-orb2)">
+      <animate attributeName="opacity" values="1;0.6;1" dur="7s" repeatCount="indefinite"/>
+    </ellipse>
+  </g>
+  <rect x="1.5" y="1.5" width="857" height="277" rx="21" fill="none" stroke="url(#stack-foil)" stroke-width="3"/>
+  <text x="30" y="50" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI','Helvetica Neue',Helvetica,Arial,sans-serif" font-size="22" font-weight="800" fill="url(#stack-title)">Language Stack</text>
+  <text x="30" y="70" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="11" fill="#8b8fa8">Repository-weighted technologies</text>
+  <text x="830" y="50" text-anchor="end" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="12" fill="#a5b4fc">&gt; stack.scan <tspan fill="#c084fc">_<animate attributeName="opacity" values="1;0;1" dur="1.2s" repeatCount="indefinite"/></tspan></text>
+  
+  <circle cx="40" cy="100" r="5" fill="#3178c6"/>
+  <text x="56" y="104" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="13" font-weight="700" fill="#e5e7eb">TypeScript</text>
+  <text x="278" y="104" text-anchor="end" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="12" fill="#a5b4fc">70%</text>
+  <rect x="300" y="95" width="520" height="8" rx="4" fill="#a5b4fc" fill-opacity="0.12"/>
+  <rect x="300" y="95" width="364.0" height="8" rx="4" fill="#3178c6">
+    <animate attributeName="width" from="0" to="364.0" dur="0.9s" begin="0.2s" calcMode="spline" keyTimes="0;1" keySplines="0.3 0 0.2 1"/>
+  </rect>
+  <circle cx="40" cy="134" r="5" fill="#f1e05a"/>
+  <text x="56" y="138" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="13" font-weight="700" fill="#e5e7eb">JavaScript</text>
+  <text x="278" y="138" text-anchor="end" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="12" fill="#a5b4fc">19%</text>
+  <rect x="300" y="129" width="520" height="8" rx="4" fill="#a5b4fc" fill-opacity="0.12"/>
+  <rect x="300" y="129" width="98.8" height="8" rx="4" fill="#f1e05a">
+    <animate attributeName="width" from="0" to="98.8" dur="0.9s" begin="0.32s" calcMode="spline" keyTimes="0;1" keySplines="0.3 0 0.2 1"/>
+  </rect>
+  <circle cx="40" cy="168" r="5" fill="#336790"/>
+  <text x="56" y="172" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="13" font-weight="700" fill="#e5e7eb">PLpgSQL</text>
+  <text x="278" y="172" text-anchor="end" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="12" fill="#a5b4fc">7%</text>
+  <rect x="300" y="163" width="520" height="8" rx="4" fill="#a5b4fc" fill-opacity="0.12"/>
+  <rect x="300" y="163" width="36.4" height="8" rx="4" fill="#336790">
+    <animate attributeName="width" from="0" to="36.4" dur="0.9s" begin="0.44s" calcMode="spline" keyTimes="0;1" keySplines="0.3 0 0.2 1"/>
+  </rect>
+  <circle cx="40" cy="202" r="5" fill="#663399"/>
+  <text x="56" y="206" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="13" font-weight="700" fill="#e5e7eb">CSS</text>
+  <text x="278" y="206" text-anchor="end" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="12" fill="#a5b4fc">3%</text>
+  <rect x="300" y="197" width="520" height="8" rx="4" fill="#a5b4fc" fill-opacity="0.12"/>
+  <rect x="300" y="197" width="17.7" height="8" rx="4" fill="#663399">
+    <animate attributeName="width" from="0" to="17.7" dur="0.9s" begin="0.56s" calcMode="spline" keyTimes="0;1" keySplines="0.3 0 0.2 1"/>
+  </rect>
+  <circle cx="40" cy="236" r="5" fill="#e34c26"/>
+  <text x="56" y="240" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="13" font-weight="700" fill="#e5e7eb">HTML</text>
+  <text x="278" y="240" text-anchor="end" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="12" fill="#a5b4fc">&lt;1%</text>
+  <rect x="300" y="231" width="520" height="8" rx="4" fill="#a5b4fc" fill-opacity="0.12"/>
+  <rect x="300" y="231" width="4.0" height="8" rx="4" fill="#e34c26">
+    <animate attributeName="width" from="0" to="4.0" dur="0.9s" begin="0.6799999999999999s" calcMode="spline" keyTimes="0;1" keySplines="0.3 0 0.2 1"/>
+  </rect>
+  
+  <defs><linearGradient id="stack-sh" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".16"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+  </linearGradient></defs>
+  <g clip-path="url(#stack-clip)">
+    <g transform="skewX(-18)">
+      <rect x="-220" y="0" width="150" height="280" fill="url(#stack-sh)">
+        <animateTransform attributeName="transform" type="translate" values="0 0;1440 0;1440 0" keyTimes="0;0.55;1" dur="5s" begin="1s" repeatCount="indefinite"/>
+      </rect>
+    </g>
+  </g>
+</svg>

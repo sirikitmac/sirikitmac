@@ -26,18 +26,21 @@ jobs:
         with:
           node-version: 22
 
-      - name: Build hero + selected work cards
+      - name: Build holo cards (hero, stack, selected work, connect)
         run: node scripts/build-cards.mjs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
 
-      - name: Build 3D contribution city (red theme)
+      - name: Build 3D contribution city (holo theme)
         uses: yoshi389111/github-profile-3d-contrib@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
           SETTING_JSON: .github/profile-3d-satan.json
+
+      - name: Frame 3D city with holo foil border
+        run: node scripts/build-cards.mjs --frame profile-3d-contrib/profile-satan-animate.svg && node scripts/build-cards.mjs --frame profile-3d-contrib/profile-satan.svg
 
       - name: Commit and push
         run: |
