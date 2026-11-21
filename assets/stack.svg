@@ -34,36 +34,36 @@
   <text x="56" y="104" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="13" font-weight="700" fill="#e5e7eb">TypeScript</text>
   <text x="278" y="104" text-anchor="end" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="12" fill="#a5b4fc">70%</text>
   <rect x="300" y="95" width="520" height="8" rx="4" fill="#a5b4fc" fill-opacity="0.12"/>
-  <rect x="300" y="95" width="362.3" height="8" rx="4" fill="#3178c6">
-    <animate attributeName="width" from="0" to="362.3" dur="0.9s" begin="0.2s" calcMode="spline" keyTimes="0;1" keySplines="0.3 0 0.2 1"/>
+  <rect x="300" y="95" width="363.8" height="8" rx="4" fill="#3178c6">
+    <animate attributeName="width" from="0" to="363.8" dur="0.9s" begin="0.2s" calcMode="spline" keyTimes="0;1" keySplines="0.3 0 0.2 1"/>
   </rect>
   <circle cx="40" cy="134" r="5" fill="#f1e05a"/>
   <text x="56" y="138" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="13" font-weight="700" fill="#e5e7eb">JavaScript</text>
   <text x="278" y="138" text-anchor="end" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="12" fill="#a5b4fc">19%</text>
   <rect x="300" y="129" width="520" height="8" rx="4" fill="#a5b4fc" fill-opacity="0.12"/>
-  <rect x="300" y="129" width="99.5" height="8" rx="4" fill="#f1e05a">
-    <animate attributeName="width" from="0" to="99.5" dur="0.9s" begin="0.32s" calcMode="spline" keyTimes="0;1" keySplines="0.3 0 0.2 1"/>
+  <rect x="300" y="129" width="97.3" height="8" rx="4" fill="#f1e05a">
+    <animate attributeName="width" from="0" to="97.3" dur="0.9s" begin="0.32s" calcMode="spline" keyTimes="0;1" keySplines="0.3 0 0.2 1"/>
   </rect>
   <circle cx="40" cy="168" r="5" fill="#336790"/>
   <text x="56" y="172" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="13" font-weight="700" fill="#e5e7eb">PLpgSQL</text>
   <text x="278" y="172" text-anchor="end" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="12" fill="#a5b4fc">7%</text>
   <rect x="300" y="163" width="520" height="8" rx="4" fill="#a5b4fc" fill-opacity="0.12"/>
-  <rect x="300" y="163" width="36.4" height="8" rx="4" fill="#336790">
-    <animate attributeName="width" from="0" to="36.4" dur="0.9s" begin="0.44s" calcMode="spline" keyTimes="0;1" keySplines="0.3 0 0.2 1"/>
+  <rect x="300" y="163" width="37.6" height="8" rx="4" fill="#336790">
+    <animate attributeName="width" from="0" to="37.6" dur="0.9s" begin="0.44s" calcMode="spline" keyTimes="0;1" keySplines="0.3 0 0.2 1"/>
   </rect>
   <circle cx="40" cy="202" r="5" fill="#663399"/>
   <text x="56" y="206" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="13" font-weight="700" fill="#e5e7eb">CSS</text>
   <text x="278" y="206" text-anchor="end" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="12" fill="#a5b4fc">3%</text>
   <rect x="300" y="197" width="520" height="8" rx="4" fill="#a5b4fc" fill-opacity="0.12"/>
-  <rect x="300" y="197" width="13.9" height="8" rx="4" fill="#663399">
-    <animate attributeName="width" from="0" to="13.9" dur="0.9s" begin="0.56s" calcMode="spline" keyTimes="0;1" keySplines="0.3 0 0.2 1"/>
+  <rect x="300" y="197" width="13.7" height="8" rx="4" fill="#663399">
+    <animate attributeName="width" from="0" to="13.7" dur="0.9s" begin="0.56s" calcMode="spline" keyTimes="0;1" keySplines="0.3 0 0.2 1"/>
   </rect>
   <circle cx="40" cy="236" r="5" fill="#3572A5"/>
   <text x="56" y="240" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="13" font-weight="700" fill="#e5e7eb">Python</text>
   <text x="278" y="240" text-anchor="end" font-family="ui-monospace,SFMono-Regular,'SF Mono',Menlo,Consolas,monospace" font-size="12" fill="#a5b4fc">1%</text>
   <rect x="300" y="231" width="520" height="8" rx="4" fill="#a5b4fc" fill-opacity="0.12"/>
-  <rect x="300" y="231" width="7.6" height="8" rx="4" fill="#3572A5">
-    <animate attributeName="width" from="0" to="7.6" dur="0.9s" begin="0.6799999999999999s" calcMode="spline" keyTimes="0;1" keySplines="0.3 0 0.2 1"/>
+  <rect x="300" y="231" width="7.4" height="8" rx="4" fill="#3572A5">
+    <animate attributeName="width" from="0" to="7.4" dur="0.9s" begin="0.6799999999999999s" calcMode="spline" keyTimes="0;1" keySplines="0.3 0 0.2 1"/>
   </rect>
   
   <defs><linearGradient id="stack-sh" x1="0" y1="0" x2="1" y2="0">
